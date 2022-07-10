@@ -92,6 +92,18 @@ namespace eCommerce.UWP.ViewModels
 
         }
 
+        public void Remove()
+        {
+            var id = SelectedProduct?.Id ?? -1;
+            if (id >= 1)
+            {
+                _productService.Delete(SelectedProduct.Id);
+            }
+            NotifyPropertyChanged("Products");
+        }
+
+
+
         public void Save()
         {
             _productService.Save();

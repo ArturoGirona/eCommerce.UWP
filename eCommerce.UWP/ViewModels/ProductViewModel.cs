@@ -125,6 +125,7 @@ namespace eCommerce.UWP.ViewModels
             }
         }
 
+        private decimal _price;
         public decimal Price
         {
             //get => BoundProductByQuantity?.Price ?? BoundProductByWeight?.Price ?? 0M;
@@ -139,18 +140,38 @@ namespace eCommerce.UWP.ViewModels
             //        return;
             //}
 
-            get => BoundProduct?.Price ?? 0M;
+            //get => BoundProduct?.Price ?? 0M;
+
+            //set
+            //{
+            //    if (BoundProduct == null)
+            //        return;
+
+
+            //    BoundProduct.Price = value;
+            //}
+
+            get => _price;
 
             set
             {
-                if (BoundProduct == null)
+                if (BoundProduct == null || !decimal.TryParse(PriceString, out _price))
+                {
                     return;
+                }
 
-                BoundProduct.Price = value;
+                BoundProduct.Price = _price;
             }
-
         }
 
+        public string PriceString
+        {
+            get
+            {
+                return _price.ToString();
+            }
+        }
+        private int _quantity;
         public int Quantity
         {
             get => boundProductByQuantity?.Quantity ?? 0;
@@ -164,10 +185,12 @@ namespace eCommerce.UWP.ViewModels
             }
         }
 
+       // public int QuantityString
+
         public decimal Weight
         {
 
-            get => BoundProductByWeight?.Weight ?? 0M;
+            get => boundProductByWeight?.Weight ?? 0M;
 
             set
             {

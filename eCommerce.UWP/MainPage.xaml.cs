@@ -76,5 +76,15 @@ namespace eCommerce.UWP
             }
 
         }
+
+        private void Remove_Click(object sender, RoutedEventArgs e)
+        {
+            var vm = DataContext as eCommerceViewModel;
+            if (vm != null)
+            {
+                vm.Remove();
+            }
+        }
+
     }
 }

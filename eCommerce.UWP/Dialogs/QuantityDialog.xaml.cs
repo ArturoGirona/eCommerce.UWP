@@ -40,7 +40,7 @@ namespace eCommerce.UWP.Dialogs
             //step 2: use a conversion constructor from view model -> todo
 
             //step 3: interact with the service using models;
-            //ProductService.Current.AddOrUpdate(DataContext as ProductByQuantity);
+            ProductService.Current.AddOrUpdate(DataContext as ProductByQuantity);
 
         }
 

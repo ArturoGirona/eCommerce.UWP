@@ -38,13 +38,13 @@ namespace eCommerce.UWP.Dialogs
 
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            //step 1: coerce datacontext into view model
-            var viewModel = this.DataContext as ProductViewModel;
+            ////step 1: coerce datacontext into view model
+            //var viewModel = this.DataContext as ProductViewModel;
             //var _productService = ProductService.Current;
 
-            //step 2: use a conversion constructor from view model -> product
+            ////step 2: use a conversion constructor from view model -> product
 
-            //step 3: interact with the service using models;
+            ////step 3: interact with the service using models;
 
             //if (viewModel.BoundProductByQuantity != null && viewModel.BoundProductByWeight == null)
             //{
@@ -58,12 +58,12 @@ namespace eCommerce.UWP.Dialogs
             //}
 
             //step 1: coerce datacontext into view model
-            //var viewModel = DataContext as ItemViewModel;
+            var viewModel = this.DataContext as ProductViewModel;
 
             //step 2: use a conversion constructor from view model -> todo
-
+            var bp = viewModel.BoundProduct;
             //step 3: interact with the service using models;
-            //ProductService.Current.AddOrUpdate(viewModel.BoundProduct);
+            ProductService.Current.AddOrUpdate(viewModel.BoundProduct);
 
 
         }
