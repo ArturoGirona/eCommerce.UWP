@@ -125,8 +125,7 @@ namespace eCommerce.UWP.ViewModels
             }
         }
 
-        private decimal _price;
-        public decimal Price
+        public double Price
         {
             //get => BoundProductByQuantity?.Price ?? BoundProductByWeight?.Price ?? 0M;
 
@@ -151,26 +150,15 @@ namespace eCommerce.UWP.ViewModels
             //    BoundProduct.Price = value;
             //}
 
-            get => _price;
+            get => (double)(BoundProduct?.Price ?? 0);
 
             set
             {
-                if (BoundProduct == null || !decimal.TryParse(PriceString, out _price))
-                {
-                    return;
-                }
-
-                BoundProduct.Price = _price;
+                BoundProduct.Price = (decimal)value;
             }
         }
 
-        public string PriceString
-        {
-            get
-            {
-                return _price.ToString();
-            }
-        }
+        public string PriceString => BoundProduct?.Price.ToString("C");
         private int _quantity;
         public int Quantity
         {

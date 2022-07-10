@@ -24,6 +24,7 @@ namespace eCommerce.UWP.Dialogs
         public WeightDialog()
         {
             this.InitializeComponent();
+            DataContext = new ProductByWeight();
         }
 
         public WeightDialog(Product p)

@@ -244,16 +244,19 @@ namespace Library.eCommerce.Services
 
         public void Load()
         {
-            var payload = File.ReadAllText(_persistPath);
-            if(!string.IsNullOrEmpty(payload))
+            if(!string.IsNullOrEmpty(_persistPath) && File.Exists(_persistPath))
             {
-                inventory = JsonConvert.DeserializeObject<List<Product>>(payload, new JsonSerializerSettings
+                var payload = File.ReadAllText(_persistPath);
+                if (!string.IsNullOrEmpty(payload))
                 {
-                    TypeNameHandling = TypeNameHandling.All
-                }) ?? new List<Product>();
-            }
+                    inventory = JsonConvert.DeserializeObject<List<Product>>(payload, new JsonSerializerSettings
+                    {
+                        TypeNameHandling = TypeNameHandling.All
+                    }) ?? new List<Product>();
+                }
 
-            listNavigator = new ListNavigator<Product>(ProcessedList);
+                listNavigator = new ListNavigator<Product>(ProcessedList);
+            }
         }
 
         //GROSS
