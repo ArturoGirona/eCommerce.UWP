@@ -1,4 +1,5 @@
-﻿using Library.eCommerce.Models;
+﻿using eCommerce.UWP.ViewModels;
+using Library.eCommerce.Models;
 using Library.eCommerce.Services;
 using System;
 using System.Collections.Generic;
@@ -48,5 +49,20 @@ namespace eCommerce.UWP.Dialogs
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
         }
+
+        private void Set_Bogo_Click(object sender, RoutedEventArgs e)
+        {
+            var viewModel = this.DataContext as ProductByWeight;
+
+            viewModel.BoGo = true;
+        }
+
+        private void Unset_Bogo_Click(object sender, RoutedEventArgs e)
+        {
+            var viewModel = this.DataContext as ProductViewModel;
+
+            viewModel.BoGo = false;
+        }
+
     }
 }

@@ -159,7 +159,6 @@ namespace eCommerce.UWP.ViewModels
         }
 
         public string PriceString => BoundProduct?.Price.ToString("C");
-        private int _quantity;
         public int Quantity
         {
             get => boundProductByQuantity?.Quantity ?? 0;
@@ -173,19 +172,17 @@ namespace eCommerce.UWP.ViewModels
             }
         }
 
-       // public int QuantityString
-
-        public decimal Weight
+        public double Weight
         {
 
-            get => boundProductByWeight?.Weight ?? 0M;
+            get => (double) (boundProductByWeight?.Weight ?? 0);
 
             set
             {
                 if (QuantityNotWeight())
                     return;
 
-                boundProductByWeight.Weight = value;
+                boundProductByWeight.Weight = (decimal) value;
             }
         }
 
@@ -232,6 +229,14 @@ namespace eCommerce.UWP.ViewModels
             get
             {
                 return BoundProductByWeight == null && BoundProductByQuantity  != null ? Visibility.Collapsed : Visibility.Visible;
+            }
+        }
+
+        public Visibility IsBogo
+        {
+            get
+            {
+                return (bool)(BoGo) ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 
@@ -303,7 +308,7 @@ namespace eCommerce.UWP.ViewModels
                 boundProductByQuantity = i as ProductByQuantity;
                 boundProductByWeight = null;
             }
-            else if (i is ProductByQuantity)
+            else if (i is ProductByWeight)
             {
                 boundProductByWeight = i as ProductByWeight;
                 boundProductByQuantity = null;

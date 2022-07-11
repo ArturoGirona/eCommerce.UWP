@@ -71,5 +71,19 @@ namespace eCommerce.UWP.Dialogs
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
         }
+
+        private void Set_Bogo_Click(object sender, RoutedEventArgs e)
+        {
+            var viewModel = this.DataContext as ProductViewModel;
+
+            viewModel.BoGo = true;
+        }
+
+        private void Unset_Bogo_Click(object sender, RoutedEventArgs e)
+        {
+            var viewModel = this.DataContext as ProductViewModel;
+
+            viewModel.BoGo = false ;
+        }
     }
 }

@@ -86,5 +86,40 @@ namespace eCommerce.UWP
             }
         }
 
+        private void Search_Click(object sender, RoutedEventArgs e)
+        {
+            (DataContext as eCommerceViewModel).Refresh();
+        }
+
+        private void Add_To_Cart_Click(object sender, RoutedEventArgs e)
+        {
+            var vm = DataContext as eCommerceViewModel;
+
+            Product cartProduct = vm.SelectedProduct.BoundProduct.copy();
+
+            ProductService.Current.AddOrUpdate(cartProduct, ProductType.CART);
+        }
+
+        private void Edit_Cart_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Remove_From_Cart_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Create_Cart_Click(object sender, RoutedEventArgs e)
+        {
+            var vm = DataContext as eCommerceViewModel;
+            vm.CreateCart();
+        }
+
+        private void Delete_Cart_Click(object sender, RoutedEventArgs e)
+        {
+            var vm = DataContext as eCommerceViewModel;
+            vm.DeleteCart();
+        }
     }
 }

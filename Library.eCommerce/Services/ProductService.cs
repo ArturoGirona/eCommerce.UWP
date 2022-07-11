@@ -13,7 +13,11 @@ namespace Library.eCommerce.Services
     {
         private string _persistPath
                     = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\SaveData.json";
-        
+
+        private string _cartNamePath
+            = $"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\\CartNames.json";
+
+
         private static ProductService instance;
         public enum ProductBy { DEFAULT, QUANTITY, WEIGHT };
 
@@ -50,6 +54,16 @@ namespace Library.eCommerce.Services
 
         private List<Product> inventory;
         private ListNavigator<Product> listNavigator;
+
+        private List<string> cartList;
+
+        public List<string> CartList
+        {
+            get
+            {
+                return cartList;
+            }
+        }
         public List<Product> Inventory
         {
             get
@@ -63,6 +77,7 @@ namespace Library.eCommerce.Services
             _query = String.Empty;
             inventory = new List<Product>();
             listNavigator = new ListNavigator<Product>(ProcessedList);
+            cartList = new List<string>();
         }
         public Dictionary<int, Product> GoForward()
         {
@@ -104,7 +119,7 @@ namespace Library.eCommerce.Services
             return listNavigator.LastPage;
         }
 
-        public void AddOrUpdate(Product item, ProductType searchIn = ProductType.INVENTORY)
+        public void AddOrUpdate(Product item, ProductType searchIn = ProductType.INVENTORY, string cartName = "")
         {
             //Id management for adding a new record.
             if(item.Id == 0)
@@ -240,6 +255,14 @@ namespace Library.eCommerce.Services
                 TypeNameHandling = TypeNameHandling.All
             });
             File.WriteAllText(_persistPath, payload);
+
+            /*
+            var cartPayload = JsonConvert.SerializeObject(cartList, new JsonSerializerSettings
+            {
+                TypeNameHandling = TypeNameHandling.All
+            });
+            File.WriteAllText(_cartNamePath, cartPayload);
+            */
         }
 
         public void Load()
@@ -256,6 +279,17 @@ namespace Library.eCommerce.Services
                 }
 
                 listNavigator = new ListNavigator<Product>(ProcessedList);
+
+                /*
+                var cartPayload = File.ReadAllText(_cartNamePath);
+                if(!string.IsNullOrEmpty(cartPayload))
+                {
+                    cartList = JsonConvert.DeserializeObject<List<string>>(cartPayload, new JsonSerializerSettings
+                    {
+                        TypeNameHandling = TypeNameHandling.All
+                    }) ?? new List<string>();
+                }
+                */
             }
         }
 

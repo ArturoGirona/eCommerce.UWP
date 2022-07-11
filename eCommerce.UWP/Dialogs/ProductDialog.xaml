@@ -39,6 +39,7 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Text="Title"></TextBlock>
+                <!--<TextBox Grid.Column="1" Text="{Binding Path=BoundProduct.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>-->
                 <TextBox Grid.Column="1" Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
             <Grid Grid.Row="3">
@@ -47,6 +48,7 @@
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Column="0" Text="Description"></TextBlock>
+                <!--<TextBox Grid.Column="1" Text="{Binding Path=BoundProduct.Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>-->
                 <TextBox Grid.Column="1" Text="{Binding Path=Description, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </Grid>
             <Grid Grid.Row="4" Visibility="{Binding Path=IsQuantityCardVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
@@ -67,7 +69,7 @@
 
                 <!--Quantity Field-->
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Quantity"></TextBlock>
-                <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding Path=BoundProduct.Quantity, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
+                <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding Path=Quantity, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
 
             </Grid>
             <Grid Grid.Row="4" Visibility="{Binding Path=IsWeightCardVisible, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
@@ -88,17 +90,19 @@
                 <!--Price field-->
                 <TextBlock Grid.Row="0" Grid.Column="0"  Text="Price"/>
                 <TextBlock Grid.Row="0" Grid.Column="1" Text="$"/>
-                <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding Path=Price, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <!--<TextBox Grid.Row="0" Grid.Column="2" Text="{Binding Path=BoundProduct.Price, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>-->
+                <TextBox Grid.Row="0" Grid.Column="2" Text="{Binding Path=Price, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
                 <TextBlock Grid.Row="0" Grid.Column="3" Text="/oz"/>
                 
                 <!--Weight field-->
                 <TextBlock Grid.Row="1" Grid.Column="0"  Text="Weight"></TextBlock>
-                <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding Path=BoundProduct.Weight, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                <!--<TextBox Grid.Row="1" Grid.Column="2" Text="{Binding Path=BoundProduct.Weight, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>-->
+                <TextBox Grid.Row="1" Grid.Column="2" Text="{Binding Path=Weight, Mode=TwoWay, UpdateSourceTrigger=LostFocus}"/>
                 <!--<TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Name, Mode=TwoWay}"/>-->
                 <TextBlock Grid.Row="1" Grid.Column="3" Text="oz"/>
             </Grid>
 
-            <CheckBox Grid.Row="5" Content="By-One-Get-One Free (BoGo)"/>
+            <CheckBox Grid.Row="5" Content="By-One-Get-One Free (BoGo)" Checked="Set_Bogo_Click" Unchecked="Unset_Bogo_Click"/>
         </Grid>
     </Grid>
 </ContentDialog>

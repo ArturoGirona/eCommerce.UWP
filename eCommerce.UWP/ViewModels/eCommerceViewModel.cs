@@ -18,6 +18,7 @@ namespace eCommerce.UWP.ViewModels
     {
         public string Query { get; set; }
         public ProductViewModel SelectedProduct { get; set; }
+        public CartViewModel SelectedCart { get; set; }
         private ProductService _productService;
 
         public eCommerceViewModel()
@@ -58,6 +59,20 @@ namespace eCommerce.UWP.ViewModels
                             || i.Description.ToUpper().Contains(Query.ToUpper()))
                         .Select(i => new ProductViewModel(i)));
                 }
+            }
+        }
+
+        public ObservableCollection<CartViewModel> Carts
+        {
+            get
+            {
+                if (_productService == null)
+                {
+                    return new ObservableCollection<CartViewModel>();
+                }
+
+                return new ObservableCollection<CartViewModel>(
+                    _productService.CartList.Select(i => new CartViewModel(i)));
             }
         }
 
@@ -102,8 +117,6 @@ namespace eCommerce.UWP.ViewModels
             NotifyPropertyChanged("Products");
         }
 
-
-
         public void Save()
         {
             _productService.Save();
@@ -118,6 +131,23 @@ namespace eCommerce.UWP.ViewModels
         public void Refresh()
         {
             NotifyPropertyChanged("Products");
+        }
+
+        //public List<string> cartList;
+
+        public async void CreateCart()
+        {
+            ContentDialog diag = new CartDialog();
+            await diag.ShowAsync();
+            NotifyPropertyChanged("Carts");
+        }
+
+        public async void DeleteCart()
+        {
+            var name = SelectedCart?.CartName ?? string.Empty;
+            if (!name.Equals(string.Empty))
+                _productService.CartList.Remove(name);
+            NotifyPropertyChanged("Carts");
         }
     }
 }

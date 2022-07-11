@@ -15,7 +15,7 @@ namespace Library.eCommerce.Models
         public string Description { get; set; }
         public decimal Price { get; set; }
 
-        public virtual int Quantity { get; set; }
+        //public virtual int Quantity { get; set; }
 
         public virtual decimal TotalPrice { get; set; }
 
@@ -25,12 +25,24 @@ namespace Library.eCommerce.Models
 
         public bool BoGo { get; set; }
 
+        public string CartName
+        {
+            get => CartName ?? string.Empty;
+            set
+            {
+                if (FoundIn.Equals(ProductType.INVENTORY))
+                    CartName = string.Empty;
+                else
+                    CartName = value;
+            }
+        }
+
         public override string ToString()
         {
             return $"{Id} () {Price:C2} {Name}: {Description}";
         }
 
-        public virtual Product copy()
+        public Product copy()
         {
             Product copy = new Product();
 
@@ -40,6 +52,7 @@ namespace Library.eCommerce.Models
             copy.Price = Price;
             //copy.Quantity = Quantity;
             copy.Id = Id;
+            copy.CartName = CartName;
 
             return copy;
         }

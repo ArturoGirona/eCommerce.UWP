@@ -9,7 +9,7 @@ namespace Library.eCommerce.Models
     public class ProductByQuantity : Product
     {
         private int _quantity;
-        public override int Quantity
+        public int Quantity
         {
             get
             {
@@ -42,6 +42,15 @@ namespace Library.eCommerce.Models
                 return $"{Id} ({Quantity}) {Price:C2} {Name}: {Description}";
             else
                 return $"{Id} ({Quantity}) {Price:C2} | {TotalPrice:C2} {Name}: {Description}";
+        }
+
+        public ProductByQuantity copy()
+        {
+            ProductByQuantity copy = (base.copy() as ProductByQuantity);
+
+            copy.Quantity = Quantity;
+            return copy;
+
         }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using eCommerce.UWP.ViewModels;
-using Library.eCommerce.Models;
 using Library.eCommerce.Services;
 using System;
 using System.Collections.Generic;
@@ -20,48 +19,32 @@ using Windows.UI.Xaml.Navigation;
 
 namespace eCommerce.UWP.Dialogs
 {
-    public sealed partial class QuantityDialog : ContentDialog
+    public sealed partial class CartDialog : ContentDialog
     {
-        public QuantityDialog()
+        public CartDialog()
         {
             this.InitializeComponent();
+            this.DataContext = new CartViewModel();
         }
 
-        public QuantityDialog(Product p)
-        {
-            this.InitializeComponent();
-            this.DataContext = p;
-        }
-
+        public Visibility ErrorMessage { set; get; }
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             //step 1: coerce datacontext into view model
-            var viewModel = DataContext as ProductByQuantity;
+            var viewModel = this.DataContext as CartViewModel;
 
             //step 2: use a conversion constructor from view model -> todo
-
+            var cn = viewModel.CartName;
             //step 3: interact with the service using models;
-            ProductService.Current.AddOrUpdate(DataContext as ProductByQuantity);
-
+            
+            if (!ProductService.Current.CartList.Contains(cn))
+                ProductService.Current.CartList.Add(cn);
+            else
+                ErrorMessage = Visibility.Visible;
         }
 
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
         }
-
-        private void Set_Bogo_Click(object sender, RoutedEventArgs e)
-        {
-            var viewModel = this.DataContext as ProductByQuantity;
-
-            viewModel.BoGo = true;
-        }
-
-        private void Unset_Bogo_Click(object sender, RoutedEventArgs e)
-        {
-            var viewModel = this.DataContext as ProductByQuantity;
-
-            viewModel.BoGo = false;
-        }
-
     }
 }

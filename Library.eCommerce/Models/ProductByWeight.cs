@@ -47,21 +47,13 @@ namespace Library.eCommerce.Models
                 return $"{Id} ({Weight} lbs) {Price:C2}/lb | {TotalPrice:C2} {Name}: {Description}";
         }
 
-        /*
-        public override ProductByWeight copy()
+
+        public ProductByWeight copy()
         {
-            ProductByWeight copy = new ProductByWeight();
+            ProductByWeight copy = (base.copy() as ProductByWeight);
 
-            copy.FoundIn = FoundIn;
-            copy.Name = Name;
-            copy.Description = Description;
             copy.Weight = Weight;
-            copy.Price = Price;
-            copy.Id = Id;
-
             return copy;
         }
-        */
-
     }
 }
