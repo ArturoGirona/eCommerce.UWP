@@ -95,19 +95,21 @@ namespace eCommerce.UWP
         {
             var vm = DataContext as eCommerceViewModel;
 
-            Product cartProduct = vm.SelectedProduct.BoundProduct.copy();
-
-            ProductService.Current.AddOrUpdate(cartProduct, ProductType.CART);
+            vm.AddToCart();
         }
 
         private void Edit_Cart_Click(object sender, RoutedEventArgs e)
         {
+            var vm = DataContext as eCommerceViewModel;
 
+            vm.EditCart();
         }
 
         private void Remove_From_Cart_Click(object sender, RoutedEventArgs e)
         {
+            var vm = DataContext as eCommerceViewModel;
 
+            vm.RemoveFromCart();
         }
 
         private void Create_Cart_Click(object sender, RoutedEventArgs e)
@@ -120,6 +122,13 @@ namespace eCommerce.UWP
         {
             var vm = DataContext as eCommerceViewModel;
             vm.DeleteCart();
+        }
+
+        private void Sort_Click(object sender, RoutedEventArgs e)
+        {
+            var vm = DataContext as eCommerceViewModel;
+            vm.Sort();
+
         }
     }
 }

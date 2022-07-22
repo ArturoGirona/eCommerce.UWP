@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using static Library.eCommerce.Services.ProductService;
+//using static Library.eCommerce.Services.ProductService;
 
 namespace eCommerce.UWP.ViewModels
 {
@@ -21,7 +21,6 @@ namespace eCommerce.UWP.ViewModels
             {
                 if (BoundProductByQuantity != null)
                 {
-                    //var bpq = BoundProductByQuantity;
                     return BoundProductByQuantity;
                 }
 
@@ -31,7 +30,6 @@ namespace eCommerce.UWP.ViewModels
 
         public ProductViewModel()
         {
-            //QuantityNotWeight = true;
             boundProductByQuantity = new ProductByQuantity();
             boundProductByWeight = null;
         }
@@ -41,13 +39,51 @@ namespace eCommerce.UWP.ViewModels
             if (p.QuantityNotWeight())
             {
                 boundProductByQuantity = p.BoundProductByQuantity;
+
+                boundProductByQuantity.Name = Name;
+                boundProductByQuantity.Description = Description;
+                boundProductByQuantity.Price = (decimal)Price;
+
                 boundProductByWeight = null;
+
             }
             else if (p.WeightNotQuantity())
             {
                 boundProductByWeight = p.BoundProductByWeight;
+
+                boundProductByWeight.Name = Name;
+                boundProductByWeight.Description = Description;
+                boundProductByWeight.Price = (decimal)Price;
+
                 boundProductByQuantity = null;
             }
+        }
+
+        public ProductViewModel(ProductByQuantity p)
+        {
+
+            boundProductByQuantity = new ProductByQuantity();
+            boundProductByWeight   = null;
+
+            boundProductByQuantity.Id          = p.Id;
+            boundProductByQuantity.Name        = p.Name;
+            boundProductByQuantity.Description = p.Description;
+            boundProductByQuantity.Price       = p.Price;
+            boundProductByQuantity.Quantity    = p.Quantity;
+            boundProductByQuantity.FoundIn     = p.FoundIn;
+        }
+
+        public ProductViewModel(ProductByWeight p)
+        {
+            boundProductByWeight   = new ProductByWeight();
+            boundProductByQuantity = null;
+
+            boundProductByWeight.Id          = p.Id;
+            boundProductByWeight.Name        = p.Name;
+            boundProductByWeight.Description = p.Description;
+            boundProductByWeight.Price       = p.Price;
+            boundProductByWeight.Weight      = p.Weight;
+            boundProductByWeight.FoundIn     = p.FoundIn;
         }
 
         public bool QuantityNotWeight()
@@ -61,17 +97,6 @@ namespace eCommerce.UWP.ViewModels
         }
         public string Name
         {
-            //get => BoundProductByQuantity?.Name ?? BoundProductByWeight?.Name ?? String.Empty;
-
-            //set
-            //{
-            //    if (QuantityNotWeight())
-            //        BoundProductByQuantity.Name = value;
-            //    else if (WeightNotQuantity())
-            //        BoundProductByWeight.Name = value;
-            //    else
-            //        return;
-            //}
 
             get => BoundProduct?.Name ?? String.Empty;
 
@@ -86,17 +111,6 @@ namespace eCommerce.UWP.ViewModels
 
         public string Description
         {
-            //get => BoundProductByQuantity?.Description ?? BoundProductByWeight?.Description ?? String.Empty;
-
-            //set
-            //{
-            //    if (QuantityNotWeight())
-            //        BoundProductByQuantity.Description = value;
-            //    else if (WeightNotQuantity())
-            //        BoundProductByWeight.Description = value;
-            //    else
-            //        return;
-            //}
 
             get => BoundProduct?.Description ?? string.Empty;
 
@@ -108,15 +122,6 @@ namespace eCommerce.UWP.ViewModels
                 BoundProduct.Description = value;
             }
         }
-
-        public ProductType FoundIn
-        {
-            get
-            {
-                return ProductType.INVENTORY;
-            }
-        }
-
         public int Id
         {
             get
@@ -127,29 +132,6 @@ namespace eCommerce.UWP.ViewModels
 
         public double Price
         {
-            //get => BoundProductByQuantity?.Price ?? BoundProductByWeight?.Price ?? 0M;
-
-            //set
-            //{
-            //    if (QuantityNotWeight())
-            //        BoundProductByQuantity.Price = value;
-            //    else if (WeightNotQuantity())
-            //        BoundProductByWeight.Price = value;
-            //    else
-            //        return;
-            //}
-
-            //get => BoundProduct?.Price ?? 0M;
-
-            //set
-            //{
-            //    if (BoundProduct == null)
-            //        return;
-
-
-            //    BoundProduct.Price = value;
-            //}
-
             get => (double)(BoundProduct?.Price ?? 0);
 
             set
@@ -186,19 +168,17 @@ namespace eCommerce.UWP.ViewModels
             }
         }
 
+        public ProductType FoundIn
+        {
+            get; set;
+        }
+
         public bool BoGo
         {
             get => BoundProduct?.BoGo ?? false;
 
             set
             {
-                //if (QuantityNotWeight())
-                //    BoundProductByQuantity.BoGo = value;
-                //else if (WeightNotQuantity())
-                //    BoundProductByWeight.BoGo = value;
-                //else
-                //    return;
-
                 if (BoundProduct == null)
                     return;
 
@@ -252,6 +232,13 @@ namespace eCommerce.UWP.ViewModels
                 if (value)
                 {
                     boundProductByQuantity = new ProductByQuantity();
+
+                    boundProductByQuantity.Id = Id;
+                    boundProductByQuantity.Name = Name;
+                    boundProductByQuantity.Description = Description;
+                    boundProductByQuantity.Price = (decimal)Price;
+                    boundProductByQuantity.FoundIn = FoundIn;
+
                     boundProductByWeight = null;
                     NotifyPropertyChanged("IsQuantityCardVisible");
                     NotifyPropertyChanged("IsWeightCardVisible");
@@ -271,6 +258,13 @@ namespace eCommerce.UWP.ViewModels
                 if (value)
                 {
                     boundProductByWeight = new ProductByWeight();
+
+                    boundProductByWeight.Id = Id;
+                    boundProductByWeight.Name = Name;
+                    boundProductByWeight.Description = Description;
+                    boundProductByWeight.Price = (decimal)Price;
+                    boundProductByWeight.FoundIn = FoundIn;
+
                     boundProductByQuantity = null;
                     NotifyPropertyChanged("IsQuantityCardVisible");
                     NotifyPropertyChanged("IsWeightCardVisible");

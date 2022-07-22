@@ -25,15 +25,20 @@ namespace Library.eCommerce.Models
 
         public bool BoGo { get; set; }
 
+        private string _cartName;
         public string CartName
         {
-            get => CartName ?? string.Empty;
+
+            get
+            {
+                return _cartName;
+            }
             set
             {
                 if (FoundIn.Equals(ProductType.INVENTORY))
-                    CartName = string.Empty;
+                    _cartName = string.Empty;
                 else
-                    CartName = value;
+                    _cartName = value;
             }
         }
 

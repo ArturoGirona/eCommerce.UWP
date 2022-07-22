@@ -69,9 +69,19 @@ namespace Library.eCommerce.Services
             get
             {
                 return inventory;
-            }
+            } 
+
         }
-        
+
+        //public List<Product> Inventory
+        //{
+        //    get
+        //    {
+        //        var itemsJson = new WebRequestHandler().Get("http://localhost:5017/Database");
+        //        return inventory;
+        //    }
+        //}
+
         private ProductService()
         {
             _query = String.Empty;
@@ -159,13 +169,14 @@ namespace Library.eCommerce.Services
                     Console.WriteLine("Sorry, an error has occurred");
                 }
             }
-            else if (inventory.Any(i => i.Id == item.Id && searchIn == ProductType.CART && i.FoundIn == ProductType.INVENTORY))
+            else if (inventory.Any(i => i.Id == item.Id && searchIn == ProductType.CART && i.FoundIn == ProductType.INVENTORY && cartName != ""))
             {
                 var inventoryItem = inventory.FirstOrDefault(i => i.Id == item.Id && i.FoundIn == ProductType.INVENTORY);
-                var cartItem = inventory.FirstOrDefault(i => i.Id == item.Id && i.FoundIn == ProductType.CART);
+                var cartItem = inventory.FirstOrDefault(i => i.Id == item.Id && i.FoundIn == ProductType.CART && i.CartName == cartName);
 
                 if (cartItem != null)
                 {
+
                     if (inventoryItem.GetType().Equals(typeof(ProductByWeight)))
                     {
                         var invItemWeight = (ProductByWeight)inventoryItem;
@@ -213,9 +224,9 @@ namespace Library.eCommerce.Services
             }
         }
 
-        public void Delete(int id, ProductType searchIn = ProductType.INVENTORY)
+        public void Delete(int id, ProductType searchIn = ProductType.INVENTORY, string cartName = "")
         {
-            var itemToDelete = inventory.FirstOrDefault(i => i.Id == id && i.FoundIn == searchIn);
+            var itemToDelete = inventory.FirstOrDefault(i => i.Id == id && i.FoundIn == searchIn && i.CartName == cartName);
             if(itemToDelete == default || itemToDelete == null)
             {
                 Console.WriteLine("The item has not been found and cannot be deleted");
@@ -256,13 +267,11 @@ namespace Library.eCommerce.Services
             });
             File.WriteAllText(_persistPath, payload);
 
-            /*
             var cartPayload = JsonConvert.SerializeObject(cartList, new JsonSerializerSettings
             {
                 TypeNameHandling = TypeNameHandling.All
             });
             File.WriteAllText(_cartNamePath, cartPayload);
-            */
         }
 
         public void Load()
@@ -280,7 +289,6 @@ namespace Library.eCommerce.Services
 
                 listNavigator = new ListNavigator<Product>(ProcessedList);
 
-                /*
                 var cartPayload = File.ReadAllText(_cartNamePath);
                 if(!string.IsNullOrEmpty(cartPayload))
                 {
@@ -289,7 +297,6 @@ namespace Library.eCommerce.Services
                         TypeNameHandling = TypeNameHandling.All
                     }) ?? new List<string>();
                 }
-                */
             }
         }
 

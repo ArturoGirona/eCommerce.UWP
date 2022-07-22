@@ -120,6 +120,12 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\AddQuantityToCartDialog.xaml.cs">
+      <DependentUpon>AddQuantityToCartDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\AddWeightToCartDialog.xaml.cs">
+      <DependentUpon>AddWeightToCartDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\CartDialog.xaml.cs">
       <DependentUpon>CartDialog.xaml</DependentUpon>
     </Compile>
@@ -136,6 +142,7 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\AddToCartViewModel.cs" />
     <Compile Include="ViewModels\CartViewModel.cs" />
     <Compile Include="ViewModels\eCommerceViewModel.cs" />
     <Compile Include="ViewModels\ProductViewModel.cs" />
@@ -160,6 +167,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Dialogs\AddQuantityToCartDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\AddWeightToCartDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dialogs\CartDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

@@ -128,6 +128,7 @@
     <Compile Include="Services\InventoryService.cs" />
     <Compile Include="Services\ProductService.cs" />
     <Compile Include="Utility\ListNavigator.cs" />
+    <Compile Include="Utility\WebRequestHandler.cs" />
     <EmbeddedResource Include="Properties\Library.eCommerce.rd.xml" />
   </ItemGroup>
   <ItemGroup>

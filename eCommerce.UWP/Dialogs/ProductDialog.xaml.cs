@@ -62,6 +62,7 @@ namespace eCommerce.UWP.Dialogs
 
             //step 2: use a conversion constructor from view model -> todo
             var bp = viewModel.BoundProduct;
+            viewModel.BoundProduct.FoundIn = ProductType.INVENTORY;
             //step 3: interact with the service using models;
             ProductService.Current.AddOrUpdate(viewModel.BoundProduct);
 
