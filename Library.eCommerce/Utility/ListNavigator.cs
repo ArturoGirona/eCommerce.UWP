@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Library.TaskManagement.Utility
+namespace Library.eCommerce.Utility
 {
     public class ListNavigator<T>
     {

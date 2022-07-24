@@ -242,5 +242,7 @@
         </ListBox>
 
         <Button Grid.Row="0" Grid.Column="1" Content="Sort" Click="Sort_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <Button Grid.Row="3" Grid.Column="1" Content="Checkout" Click="Checkout_Click" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+
     </Grid>
 </Page>

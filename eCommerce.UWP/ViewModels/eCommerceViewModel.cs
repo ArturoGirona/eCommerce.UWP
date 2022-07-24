@@ -359,5 +359,14 @@ namespace eCommerce.UWP.ViewModels
             NotifyPropertyChanged("Products");
             NotifyPropertyChanged("CartItems");
         }
+
+        public async void Checkout()
+        {
+            if (SelectedCart == null || CartItems.Count == 0)
+                return;
+
+            var diag = new CheckoutDialog(new CheckoutViewModel(this));
+            await diag.ShowAsync();
+        }
     }
 }

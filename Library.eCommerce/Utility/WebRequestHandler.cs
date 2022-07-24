@@ -4,7 +4,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Library.TaskManagement.Utility
+namespace Library.eCommerce.Utility
 {
     public class WebRequestHandler
     {
@@ -25,7 +25,8 @@ namespace Library.TaskManagement.Utility
             }
             catch (Exception e)
             {
-
+                Console.WriteLine("An exception occurred when trying to connect to this URL");
+                Console.WriteLine(e.ToString());
             }
 
 

@@ -130,5 +130,11 @@ namespace eCommerce.UWP
             vm.Sort();
 
         }
+
+        private void Checkout_Click(object sender, RoutedEventArgs e)
+        {
+            var vm = DataContext as eCommerceViewModel;
+            vm.Checkout();
+        }
     }
 }
