@@ -1,5 +1,5 @@
 ﻿using Library.eCommerce.Models;
-using Library.TaskManagement.Utility;
+using Library.eCommerce.Utility;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -64,23 +64,26 @@ namespace Library.eCommerce.Services
                 return cartList;
             }
         }
-        public List<Product> Inventory
-        {
-            get
-            {
-                return inventory;
-            } 
-
-        }
-
         //public List<Product> Inventory
         //{
         //    get
         //    {
-        //        var itemsJson = new WebRequestHandler().Get("http://localhost:5017/Database");
         //        return inventory;
-        //    }
+        //    } 
+
         //}
+
+        public List<Product> Inventory
+        {
+            get
+            {
+                var itemsJson = new WebRequestHandler().Get("http://localhost:5013/ProductByQuantity").Result;
+
+                Console.WriteLine(itemsJson.ToString());
+                inventory = JsonConvert.DeserializeObject<List<Product>>(itemsJson);
+                return inventory;
+            }
+        }
 
         private ProductService()
         {
