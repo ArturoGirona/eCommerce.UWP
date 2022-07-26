@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Library.eCommerce.Models
 {
+    [JsonConverter(typeof(ProductJsonConverter))]
     public enum ProductType { INVENTORY, CART };
 
     //[JsonConverter(typeof(ProductJsonConverter))]

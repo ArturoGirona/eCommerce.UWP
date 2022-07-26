@@ -17,7 +17,6 @@ namespace eCommerce.API.Controllers
         }
 
         [HttpGet]
-        public List<ProductByQuantity> Get()
         {
             return new ProductByQuantityEC().Get();
         }
