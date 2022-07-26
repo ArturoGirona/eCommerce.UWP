@@ -5,7 +5,7 @@ namespace eCommerce.API.EC
 {
     public class ProductByQuantityEC
     {
-        public List<Product> Get()
+        public List<ProductByQuantity> Get()
         {
             return FakeDatabase.ProductsByQuantity;
         }

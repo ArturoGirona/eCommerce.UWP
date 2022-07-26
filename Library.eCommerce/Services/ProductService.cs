@@ -9,6 +9,34 @@ using System.Linq;
 
 namespace Library.eCommerce.Services
 {
+    public struct AddOrUpdateParams
+    {
+        public Product item;
+        public ProductType searchIn;
+        public string cartName;
+
+        public AddOrUpdateParams(Product i, ProductType s, string c)
+        {
+            item = i;
+            searchIn = s;
+            cartName = c;
+        }
+    }
+
+    public struct DeleteParams
+    {
+        public int id;
+        public ProductType searchIn;
+        public string cartName;
+        public DeleteParams(int i, ProductType s, string c)
+        {
+            id = i;
+            searchIn = s;
+            cartName = c;
+        }
+    }
+
+
     public class ProductService
     {
         private string _persistPath
@@ -77,9 +105,9 @@ namespace Library.eCommerce.Services
         {
             get
             {
-                var itemsJson = new WebRequestHandler().Get("http://localhost:5013/ProductByQuantity").Result;
+                var itemsJson = new WebRequestHandler().Get("http://localhost:5013/Product").Result;
 
-                Console.WriteLine(itemsJson.ToString());
+                //Console.WriteLine(itemsJson.ToString());
                 inventory = JsonConvert.DeserializeObject<List<Product>>(itemsJson);
                 return inventory;
             }
@@ -132,135 +160,183 @@ namespace Library.eCommerce.Services
             return listNavigator.LastPage;
         }
 
+
         public void AddOrUpdate(Product item, ProductType searchIn = ProductType.INVENTORY, string cartName = "")
         {
-            //Id management for adding a new record.
-            if(item.Id == 0)
-            {
-                if (inventory.Any() && item.FoundIn == ProductType.INVENTORY)
-                {
-                    item.Id = inventory.Select(i => i.Id).Max() + 1;
-                } else
-                {
-                    if (item.FoundIn == ProductType.INVENTORY)
-                        item.Id = 1;
-                }
-            }
+            ////Id management for adding a new record.
+            //if(item.Id == 0)
+            //{
+            //    if (inventory.Any() && item.FoundIn == ProductType.INVENTORY)
+            //    {
+            //        item.Id = inventory.Select(i => i.Id).Max() + 1;
+            //    } else
+            //    {
+            //        if (item.FoundIn == ProductType.INVENTORY)
+            //            item.Id = 1;
+            //    }
+            //}
 
-            if (!inventory.Any(i => i.Id == item.Id))
-            {
-                inventory.Add(item);
-            }
-            else if (inventory.Any(i => i.Id == item.Id && searchIn == ProductType.INVENTORY && i.FoundIn == ProductType.INVENTORY))
-            {
-                var inventoryItem = inventory.FirstOrDefault(i => i.Id == item.Id && i.FoundIn == ProductType.INVENTORY);
+            //if (!inventory.Any(i => i.Id == item.Id))
+            //{
+            //    inventory.Add(item);
+            //}
+            //else if (inventory.Any(i => i.Id == item.Id && searchIn == ProductType.INVENTORY && i.FoundIn == ProductType.INVENTORY))
+            //{
+            //    var inventoryItem = inventory.FirstOrDefault(i => i.Id == item.Id && i.FoundIn == ProductType.INVENTORY);
 
-                if (item.GetType().Equals(typeof(ProductByWeight)) && inventoryItem.GetType().Equals(typeof(ProductByWeight)))
+            //    if (item.GetType().Equals(typeof(ProductByWeight)) && inventoryItem.GetType().Equals(typeof(ProductByWeight)))
+            //    {
+            //        var invItemWeight = (ProductByWeight)inventoryItem;
+            //        var itemWeight = (ProductByWeight)item;
+            //        invItemWeight.Weight = itemWeight.Weight;
+            //    }
+            //    else if (item.GetType().Equals(typeof(ProductByQuantity)) && inventoryItem.GetType().Equals(typeof(ProductByQuantity)))
+            //    {
+            //        var invItemQuantity = (ProductByQuantity)inventoryItem;
+            //        var itemQuantity = (ProductByQuantity)item;
+            //        invItemQuantity.Quantity = itemQuantity.Quantity;
+            //    }
+            //    else
+            //    {
+            //        Console.WriteLine("Sorry, an error has occurred");
+            //    }
+            //}
+            //else if (inventory.Any(i => i.Id == item.Id && searchIn == ProductType.CART && i.FoundIn == ProductType.INVENTORY && cartName != ""))
+            //{
+            //    var inventoryItem = inventory.FirstOrDefault(i => i.Id == item.Id && i.FoundIn == ProductType.INVENTORY);
+            //    var cartItem = inventory.FirstOrDefault(i => i.Id == item.Id && i.FoundIn == ProductType.CART && i.CartName == cartName);
+
+            //    if (cartItem != null)
+            //    {
+
+            //        if (inventoryItem.GetType().Equals(typeof(ProductByWeight)))
+            //        {
+            //            var invItemWeight = (ProductByWeight)inventoryItem;
+            //            var itemWeight = (ProductByWeight)item;
+            //            var cartItemWeight = (ProductByWeight)cartItem;
+            //            invItemWeight.Weight += cartItemWeight.Weight;
+
+            //            cartItemWeight.Weight = itemWeight.Weight;
+            //            invItemWeight.Weight -= cartItemWeight.Weight;
+            //        }
+            //        else if (inventoryItem.GetType().Equals(typeof(ProductByQuantity)))
+            //        {
+            //            var invItemQuantity = (ProductByQuantity)inventoryItem;
+            //            var itemQuantity = (ProductByQuantity)item;
+            //            var cartItemQuantity = (ProductByQuantity)cartItem;
+            //            invItemQuantity.Quantity += cartItemQuantity.Quantity;
+
+            //            cartItemQuantity.Quantity = itemQuantity.Quantity;
+            //            invItemQuantity.Quantity -= cartItemQuantity.Quantity;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        if (inventoryItem.GetType().Equals(typeof(ProductByWeight)))
+            //        {
+            //            var invItemWeight = (ProductByWeight)inventoryItem;
+            //            var itemWeight = (ProductByWeight)item;
+
+            //            invItemWeight.Weight -= itemWeight.Weight;
+            //            inventory.Add(itemWeight);
+            //        }
+            //        else if (inventoryItem.GetType().Equals(typeof(ProductByQuantity)))
+            //        {
+            //            var invItemQuantity = (ProductByQuantity)inventoryItem;
+            //            var itemQuantity = (ProductByQuantity)item;
+
+            //            invItemQuantity.Quantity -= itemQuantity.Quantity;
+            //            inventory.Add(itemQuantity);
+            //        }
+            //    }
+            //}
+            //else
+            //{
+            //    Console.WriteLine("Sorry, item not found.");
+            //}
+
+            //var response = new WebRequestHandler().Post("http://localhost:5013/ProductByQuantity", new ProductByQuantity { Name = "Test", Id = 0, Description = "Test Description", Price = 1.23M, FoundIn= ProductType.INVENTORY, Quantity=0 }).Result;
+            
+            var paramList = new AddOrUpdateParams(item, searchIn, cartName);
+            if (item is ProductByQuantity)
+            {
+                var response = new WebRequestHandler().Post("http://localhost:5013/ProductByQuantity/AddOrUpdate", paramList).Result;
+                var newProductByQuantity = JsonConvert.DeserializeObject<ProductByQuantity>(response);
+
+                var oldVersion = inventory.FirstOrDefault(i => i.Id == newProductByQuantity.Id);
+                if (oldVersion != null)
                 {
-                    var invItemWeight = (ProductByWeight)inventoryItem;
-                    var itemWeight = (ProductByWeight)item;
-                    invItemWeight.Weight = itemWeight.Weight;
-                }
-                else if (item.GetType().Equals(typeof(ProductByQuantity)) && inventoryItem.GetType().Equals(typeof(ProductByQuantity)))
-                {
-                    var invItemQuantity = (ProductByQuantity)inventoryItem;
-                    var itemQuantity = (ProductByQuantity)item;
-                    invItemQuantity.Quantity = itemQuantity.Quantity;
+                    var index = inventory.IndexOf(oldVersion);
+                    inventory.RemoveAt(index);
+                    inventory.Insert(index, newProductByQuantity);
                 }
                 else
                 {
-                    Console.WriteLine("Sorry, an error has occurred");
+                    inventory.Add(newProductByQuantity);
                 }
-            }
-            else if (inventory.Any(i => i.Id == item.Id && searchIn == ProductType.CART && i.FoundIn == ProductType.INVENTORY && cartName != ""))
+                inventory.Add(newProductByQuantity);
+            } else if (item is ProductByWeight)
             {
-                var inventoryItem = inventory.FirstOrDefault(i => i.Id == item.Id && i.FoundIn == ProductType.INVENTORY);
-                var cartItem = inventory.FirstOrDefault(i => i.Id == item.Id && i.FoundIn == ProductType.CART && i.CartName == cartName);
+                var response = new WebRequestHandler().Post("http://localhost:5013/ProductByWeight/AddOrUpdate", paramList).Result;
+                var newProductByWeight = JsonConvert.DeserializeObject<ProductByWeight>(response);
 
-                if (cartItem != null)
+                var oldVersion = inventory.FirstOrDefault(i => i.Id == newProductByWeight.Id);
+                if (oldVersion != null)
                 {
-
-                    if (inventoryItem.GetType().Equals(typeof(ProductByWeight)))
-                    {
-                        var invItemWeight = (ProductByWeight)inventoryItem;
-                        var itemWeight = (ProductByWeight)item;
-                        var cartItemWeight = (ProductByWeight)cartItem;
-                        invItemWeight.Weight += cartItemWeight.Weight;
-
-                        cartItemWeight.Weight = itemWeight.Weight;
-                        invItemWeight.Weight -= cartItemWeight.Weight;
-                    }
-                    else if (inventoryItem.GetType().Equals(typeof(ProductByQuantity)))
-                    {
-                        var invItemQuantity = (ProductByQuantity)inventoryItem;
-                        var itemQuantity = (ProductByQuantity)item;
-                        var cartItemQuantity = (ProductByQuantity)cartItem;
-                        invItemQuantity.Quantity += cartItemQuantity.Quantity;
-
-                        cartItemQuantity.Quantity = itemQuantity.Quantity;
-                        invItemQuantity.Quantity -= cartItemQuantity.Quantity;
-                    }
+                    var index = inventory.IndexOf(oldVersion);
+                    inventory.RemoveAt(index);
+                    inventory.Insert(index, newProductByWeight);
                 }
                 else
                 {
-                    if (inventoryItem.GetType().Equals(typeof(ProductByWeight)))
-                    {
-                        var invItemWeight = (ProductByWeight)inventoryItem;
-                        var itemWeight = (ProductByWeight)item;
-
-                        invItemWeight.Weight -= itemWeight.Weight;
-                        inventory.Add(itemWeight);
-                    }
-                    else if (inventoryItem.GetType().Equals(typeof(ProductByQuantity)))
-                    {
-                        var invItemQuantity = (ProductByQuantity)inventoryItem;
-                        var itemQuantity = (ProductByQuantity)item;
-
-                        invItemQuantity.Quantity -= itemQuantity.Quantity;
-                        inventory.Add(itemQuantity);
-                    }
+                    inventory.Add(newProductByWeight);
                 }
-            }
-            else
-            {
-                Console.WriteLine("Sorry, item not found.");
             }
         }
 
         public void Delete(int id, ProductType searchIn = ProductType.INVENTORY, string cartName = "")
         {
-            var itemToDelete = inventory.FirstOrDefault(i => i.Id == id && i.FoundIn == searchIn && i.CartName == cartName);
-            if(itemToDelete == default || itemToDelete == null)
+            //var itemToDelete = inventory.FirstOrDefault(i => i.Id == id && i.FoundIn == searchIn && i.CartName == cartName);
+            //if (itemToDelete == default || itemToDelete == null)
+            //{
+            //    Console.WriteLine("The item has not been found and cannot be deleted");
+            //    return;
+            //}
+
+
+            //if (searchIn == ProductType.INVENTORY)
+            //{
+            //    var deleteFromCart = inventory.FirstOrDefault(i => i.Id == id && i.FoundIn == ProductType.CART);
+            //    inventory.Remove(deleteFromCart ?? new Product());
+            //}
+            //else
+            //{
+            //    var inventoryItem = inventory.FirstOrDefault(i => i.Id == id && i.FoundIn == ProductType.INVENTORY);
+            //    if (itemToDelete.GetType().Equals(typeof(ProductByWeight)))
+            //    {
+            //        var inventoryItemWeight = (ProductByWeight)inventoryItem;
+            //        var itemToDeleteWeight = (ProductByWeight)itemToDelete;
+            //        inventoryItemWeight.Weight += itemToDeleteWeight.Weight;
+            //    }
+            //    else
+            //    {
+            //        var inventoryItemQuantity = (ProductByQuantity)inventoryItem;
+            //        var itemToDeleteQuantity = (ProductByQuantity)itemToDelete;
+            //        inventoryItemQuantity.Quantity += itemToDeleteQuantity.Quantity;
+            //    }
+
+            //}
+
+            //inventory.Remove(itemToDelete);
+            var paramList = new DeleteParams(id, searchIn, cartName);
+            var response = new WebRequestHandler().Get($"http://loclahost:5013/ProductByQuantity/Delete/{paramList}");
+
+            var productToDelete = inventory.FirstOrDefault(t => t.Id == id);
+            if (productToDelete == null)
             {
-                Console.WriteLine("The item has not been found and cannot be deleted");
                 return;
             }
-
-
-            if (searchIn == ProductType.INVENTORY)
-            {
-                var deleteFromCart = inventory.FirstOrDefault(i => i.Id == id && i.FoundIn == ProductType.CART);
-                inventory.Remove(deleteFromCart ?? new Product());
-            }
-            else
-            {
-                var inventoryItem = inventory.FirstOrDefault(i => i.Id == id && i.FoundIn == ProductType.INVENTORY);
-                if (itemToDelete.GetType().Equals(typeof(ProductByWeight)))
-                {
-                    var inventoryItemWeight = (ProductByWeight)inventoryItem;
-                    var itemToDeleteWeight = (ProductByWeight)itemToDelete;
-                    inventoryItemWeight.Weight += itemToDeleteWeight.Weight;
-                }
-                else
-                {
-                    var inventoryItemQuantity = (ProductByQuantity)inventoryItem;
-                    var itemToDeleteQuantity = (ProductByQuantity)itemToDelete;
-                    inventoryItemQuantity.Quantity += itemToDeleteQuantity.Quantity;
-                }
-
-            }
-
-            inventory.Remove(itemToDelete);
+            inventory.Remove(productToDelete);
         }
         public void Save()
         {

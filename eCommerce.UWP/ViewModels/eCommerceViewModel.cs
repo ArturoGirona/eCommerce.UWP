@@ -367,6 +367,10 @@ namespace eCommerce.UWP.ViewModels
 
             var diag = new CheckoutDialog(new CheckoutViewModel(this));
             await diag.ShowAsync();
+
+            DeleteCart();
+            NotifyPropertyChanged("CartItems");
+            NotifyPropertyChanged("Carts");
         }
     }
 }
