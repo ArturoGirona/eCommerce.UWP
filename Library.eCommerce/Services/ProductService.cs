@@ -160,7 +160,18 @@ namespace Library.eCommerce.Services
             return listNavigator.LastPage;
         }
 
+        public int NextId
+        {
+            get
+            {
+                if (!Inventory.Any())
+                {
+                    return 1;
+                }
 
+                return Inventory.Select(t => t.Id).Max() + 1;
+            }
+        }
         public void AddOrUpdate(Product item, ProductType searchIn = ProductType.INVENTORY, string cartName = "")
         {
             ////Id management for adding a new record.
@@ -258,6 +269,24 @@ namespace Library.eCommerce.Services
             //var response = new WebRequestHandler().Post("http://localhost:5013/ProductByQuantity", new ProductByQuantity { Name = "Test", Id = 0, Description = "Test Description", Price = 1.23M, FoundIn= ProductType.INVENTORY, Quantity=0 }).Result;
             
             var paramList = new AddOrUpdateParams(item, searchIn, cartName);
+
+            //ProductByQuantity item = paramList.item as ProductByQuantity;
+            //ProductType searchIn = paramList.searchIn;
+            //string cartName = paramList.cartName;
+            //Id management for adding a new record.
+            if (item.Id == 0)
+            {
+                if (Inventory.Any() && item.FoundIn == ProductType.INVENTORY)
+                {
+                    item.Id = Inventory.Select(i => i.Id).Max() + 1;
+                }
+                else
+                {
+                    if (item.FoundIn == ProductType.INVENTORY)
+                        item.Id = 1;
+                }
+            }
+
             if (item is ProductByQuantity)
             {
                 var response = new WebRequestHandler().Post("http://localhost:5013/ProductByQuantity/AddOrUpdate", paramList).Result;
@@ -329,14 +358,14 @@ namespace Library.eCommerce.Services
 
             //inventory.Remove(itemToDelete);
             var paramList = new DeleteParams(id, searchIn, cartName);
-            var response = new WebRequestHandler().Get($"http://loclahost:5013/ProductByQuantity/Delete/{paramList}");
+            var response = new WebRequestHandler().Post($"http://loclahost:5013/Product/Delete", paramList);
 
-            var productToDelete = inventory.FirstOrDefault(t => t.Id == id);
-            if (productToDelete == null)
-            {
-                return;
-            }
-            inventory.Remove(productToDelete);
+            //var productToDelete = inventory.FirstOrDefault(t => t.Id == id);
+            //if (productToDelete == null)
+            //{
+            //    return;
+            //}
+            //inventory.Remove(productToDelete);
         }
         public void Save()
         {

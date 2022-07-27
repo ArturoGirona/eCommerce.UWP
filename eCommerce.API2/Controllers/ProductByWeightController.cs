@@ -28,19 +28,19 @@ namespace eCommerce.API.Controllers
             ProductByWeight item = pList.item as ProductByWeight;
             ProductType searchIn = pList.searchIn;
             string cartName = pList.cartName;
-            //Id management for adding a new record.
-            if (item.Id == 0)
-            {
-                if (FakeDatabase.ProductsByWeight.Any() && item.FoundIn == ProductType.INVENTORY)
-                {
-                    item.Id = FakeDatabase.ProductsByWeight.Select(i => i.Id).Max() + 1;
-                }
-                else
-                {
-                    if (item.FoundIn == ProductType.INVENTORY)
-                        item.Id = 1;
-                }
-            }
+            ////Id management for adding a new record.
+            //if (item.Id == 0)
+            //{
+            //    if (FakeDatabase.ProductsByWeight.Any() && item.FoundIn == ProductType.INVENTORY)
+            //    {
+            //        item.Id = FakeDatabase.ProductsByWeight.Select(i => i.Id).Max() + 1;
+            //    }
+            //    else
+            //    {
+            //        if (item.FoundIn == ProductType.INVENTORY)
+            //            item.Id = 1;
+            //    }
+            //}
 
             if (!FakeDatabase.ProductsByWeight.Any(i => i.Id == item.Id))
             {
@@ -128,7 +128,7 @@ namespace eCommerce.API.Controllers
             return item;
         }
 
-        [HttpGet("Delete/{pList}")]
+        [HttpPost("Delete/{pList}")]
         public int Delete(DeleteParams pList)
         //public int Delete(int id, ProductType searchIn = ProductType.INVENTORY, string cartName = "")
         {

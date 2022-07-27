@@ -1,18 +1,13 @@
-﻿using Library.eCommerce.Utility;
-using Newtonsoft.Json;
+﻿using Library.eCommerce.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Library.eCommerce.Models
+namespace Library.eCommerce.DTO
 {
-    public enum ProductType { INVENTORY, CART };
-
-    [JsonConverter(typeof(ProductJsonConverter))]
-
-    public class Product
+    internal class ProductDTO
     {
         public ProductType FoundIn { get; set; }
         public string Name { get; set; }
@@ -51,19 +46,20 @@ namespace Library.eCommerce.Models
             return $"{Id} () {Price:C2} {Name}: {Description}";
         }
 
-        public Product copy()
-        {
-            Product copy = new Product();
+        //public ProductDTO copy()
+        //{
+        //    Product copy = new Product();
 
-            copy.FoundIn = FoundIn;
-            copy.Name = Name;
-            copy.Description = Description;
-            copy.Price = Price;
-            //copy.Quantity = Quantity;
-            copy.Id = Id;
-            copy.CartName = CartName;
+        //    copy.FoundIn = FoundIn;
+        //    copy.Name = Name;
+        //    copy.Description = Description;
+        //    copy.Price = Price;
+        //    //copy.Quantity = Quantity;
+        //    copy.Id = Id;
+        //    copy.CartName = CartName;
 
-            return copy;
-        }
+        //    return copy;
+        //}
+
     }
 }

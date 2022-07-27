@@ -17,6 +17,8 @@ namespace eCommerce.API.Controllers
         }
 
         [HttpGet]
+        public List<ProductByQuantity> Get()
+
         {
             return new ProductByQuantityEC().Get();
         }
@@ -28,19 +30,19 @@ namespace eCommerce.API.Controllers
             ProductByQuantity item = pList.item as ProductByQuantity;
             ProductType searchIn = pList.searchIn;
             string cartName = pList.cartName;
-            //Id management for adding a new record.
-            if (item.Id == 0)
-            {
-                if (FakeDatabase.ProductsByQuantity.Any() && item.FoundIn == ProductType.INVENTORY)
-                {
-                    item.Id = FakeDatabase.ProductsByQuantity.Select(i => i.Id).Max() + 1;
-                }
-                else
-                {
-                    if (item.FoundIn == ProductType.INVENTORY)
-                        item.Id = 1;
-                }
-            }
+            ////Id management for adding a new record.
+            //if (item.Id == 0)
+            //{
+            //    if (FakeDatabase.ProductsByQuantity.Any() && item.FoundIn == ProductType.INVENTORY)
+            //    {
+            //        item.Id = FakeDatabase.ProductsByQuantity.Select(i => i.Id).Max() + 1;
+            //    }
+            //    else
+            //    {
+            //        if (item.FoundIn == ProductType.INVENTORY)
+            //            item.Id = 1;
+            //    }
+            //}
 
             if (!FakeDatabase.ProductsByQuantity.Any(i => i.Id == item.Id))
             {
@@ -129,7 +131,7 @@ namespace eCommerce.API.Controllers
             return item;
         }
 
-        [HttpGet("Delete/{pList}")]
+        [HttpPost("Delete/{pList}")]
         public int Delete(DeleteParams pList)
         //public int Delete(int id, ProductType searchIn = ProductType.INVENTORY, string cartName = "")
         {

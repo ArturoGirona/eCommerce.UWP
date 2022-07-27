@@ -1,6 +1,7 @@
 ﻿using Library.eCommerce.Models;
 using Microsoft.AspNetCore.Mvc;
 using eCommerce.API.Database;
+using Library.eCommerce.Services;
 
 namespace eCommerce.API.Controllers
 {
@@ -118,5 +119,59 @@ namespace eCommerce.API.Controllers
 
             return item;
         }
+
+        [HttpPost("Delete/{pList}")]
+        public int Delete(DeleteParams pList)
+        //public int Delete(int id, ProductType searchIn = ProductType.INVENTORY, string cartName = "")
+        {
+            int id = pList.id;
+            ProductType searchIn = pList.searchIn;
+            string cartName = pList.cartName;
+
+            var itemToDelete = FakeDatabase.Inventory.FirstOrDefault(i => i.Id == id && i.FoundIn == searchIn && i.CartName == cartName);
+            if (itemToDelete == default || itemToDelete == null)
+            {
+                Console.WriteLine("The item has not been found and cannot be deleted");
+                return id;
+            }
+
+
+            if (searchIn == ProductType.INVENTORY)
+            {
+                var deleteFromCart = FakeDatabase.Inventory.FirstOrDefault(i => i.Id == id && i.FoundIn == ProductType.CART);
+                FakeDatabase.Inventory.Remove(deleteFromCart ?? new Product());
+            }
+            else
+            {
+                var inventoryItem = FakeDatabase.Inventory.FirstOrDefault(i => i.Id == id && i.FoundIn == ProductType.INVENTORY);
+                if (itemToDelete.GetType().Equals(typeof(ProductByWeight)))
+                {
+                    var inventoryItemWeight = (ProductByWeight)inventoryItem;
+                    var itemToDeleteWeight = (ProductByWeight)itemToDelete;
+                    inventoryItemWeight.Weight += itemToDeleteWeight.Weight;
+                }
+                else
+                {
+                    var inventoryItemQuantity = (ProductByQuantity)inventoryItem;
+                    var itemToDeleteQuantity = (ProductByQuantity)itemToDelete;
+                    inventoryItemQuantity.Quantity += itemToDeleteQuantity.Quantity;
+                }
+
+            }
+
+            FakeDatabase.Inventory.Remove(itemToDelete);
+
+            return id;
+            //var paramList = new DeleteParams(id, searchIn, cartName);
+            //var response = new WebRequestHandler().Get($"http://loclahost:5013/Product/Delete/{paramList}");
+
+            //var productToDelete = inventory.FirstOrDefault(t => t.Id == id);
+            //if (productToDelete == null)
+            //{
+            //    return;
+            //}
+            //inventory.Remove(productToDelete);
+        }
+
     }
 }

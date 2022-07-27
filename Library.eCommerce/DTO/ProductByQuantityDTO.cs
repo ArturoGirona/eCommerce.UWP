@@ -1,4 +1,5 @@
-﻿using Library.eCommerce.Utility;
+﻿using Library.eCommerce.Models;
+using Library.eCommerce.Utility;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -6,11 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Library.eCommerce.Models
+namespace Library.eCommerce.DTO
 {
-    [JsonConverter(typeof(ProductJsonConverter))]
 
-    public class ProductByQuantity : Product
+    internal class ProductByQuantityTDO : ProductDTO
     {
 
         private int _quantity;
@@ -35,12 +35,12 @@ namespace Library.eCommerce.Models
             get
             {
                 if (BoGo)
-                    return Price * Math.Round((decimal) Quantity / 2, MidpointRounding.AwayFromZero);
+                    return Price * Math.Round((decimal)Quantity / 2, MidpointRounding.AwayFromZero);
                 else
                     return Price * Quantity;
             }
         }
-        
+
         public override string ToString()
         {
             if (FoundIn == ProductType.INVENTORY)
@@ -49,13 +49,13 @@ namespace Library.eCommerce.Models
                 return $"{Id} ({Quantity}) {Price:C2} | {TotalPrice:C2} {Name}: {Description}";
         }
 
-        public ProductByQuantity copy()
-        {
-            ProductByQuantity copy = (base.copy() as ProductByQuantity);
+        //public ProductByQuantity copy()
+        //{
+        //    ProductByQuantity copy = (base.copy() as ProductByQuantity);
 
-            copy.Quantity = Quantity;
-            return copy;
+        //    copy.Quantity = Quantity;
+        //    return copy;
 
-        }
+        //}
     }
 }

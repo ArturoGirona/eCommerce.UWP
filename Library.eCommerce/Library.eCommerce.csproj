@@ -120,6 +120,8 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="DTO\ProductByQuantityDTO.cs" />
+    <Compile Include="DTO\ProductDTO.cs" />
     <Compile Include="Models\InventoryItem.cs" />
     <Compile Include="Models\Product.cs" />
     <Compile Include="Models\ProductByQuantity.cs" />

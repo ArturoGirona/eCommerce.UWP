@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Library.eCommerce.Models
 {
-    //[JsonConverter(typeof(ProductJsonConverter))]
+    [JsonConverter(typeof(ProductJsonConverter))]
 
     public class ProductByWeight : Product
     {
