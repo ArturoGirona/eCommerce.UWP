@@ -4,6 +4,26 @@ namespace eCommerce.API.Database
 {
     public class FakeDatabase
     {
+
+        public static List<string> cartList = new List<string>
+        {
+            "cart1",
+            "cart2",
+            "cart3",
+            "cart4",
+            "cart5",
+            "cart6"
+        };
+
+        public static List<string> CartList
+        {
+            get
+            {
+                return cartList;
+            }
+        }
+
+
         public static List<Product> Inventory
         {
             get
@@ -28,9 +48,9 @@ namespace eCommerce.API.Database
         public static List<ProductByWeight> ProductsByWeight = new List<ProductByWeight>
         {
             new ProductByWeight { Id = 6, Name = "Product3", Description="Description 1", FoundIn= ProductType.INVENTORY, Weight=1.23M, Price = 6.00M, BoGo=true},
-            new ProductByWeight { Id = 7, Name = "Product2", Description="Description 2", FoundIn= ProductType.INVENTORY, Weight=1.23M, Price = 7.00M, BoGo=false},
+            new ProductByWeight { Id = 7, Name = "Product2", Description="Description 2", FoundIn= ProductType.INVENTORY, Weight=2.46M, Price = 7.00M, BoGo=false},
             new ProductByWeight { Id = 8, Name = "Product3", Description="Description 3", FoundIn= ProductType.INVENTORY, Weight=1.23M, Price = 8.00M, BoGo=true},
-            new ProductByWeight { Id = 9, Name = "Product4", Description="Description 4", FoundIn= ProductType.INVENTORY, Weight=1.23M, Price = 9.00M, BoGo=false},
+            new ProductByWeight { Id = 9, Name = "Product4", Description="Description 4", FoundIn= ProductType.INVENTORY, Weight=2.46M, Price = 9.00M, BoGo=false},
 
         };
     }

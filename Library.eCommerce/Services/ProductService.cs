@@ -1,4 +1,5 @@
-﻿using Library.eCommerce.Models;
+﻿using Library.eCommerce.DTO;
+using Library.eCommerce.Models;
 using Library.eCommerce.Utility;
 using Newtonsoft.Json;
 using System;
@@ -89,17 +90,25 @@ namespace Library.eCommerce.Services
         {
             get
             {
+                var cartsJson = new WebRequestHandler().Get("http://localhost:5013/Cart").Result;
+
+                cartList = JsonConvert.DeserializeObject<List<string>>(cartsJson);
                 return cartList;
             }
         }
-        //public List<Product> Inventory
-        //{
-        //    get
-        //    {
-        //        return inventory;
-        //    }
 
-        //}
+        public void CreateCart(string cartName)
+        {
+            var response = new WebRequestHandler().Post("http://localhost:5013/Cart/Add", cartName).Result;
+            //var newCartName = JsonConvert.DeserializeObject<string>(response);
+
+        }
+
+        public void DeleteCart(string cartName)
+        {
+            var response = new WebRequestHandler().Post("http://localhost:5013/Cart/Delete", cartName).Result;
+            //var newCartName = JsonConvert.DeserializeObject<string>(response);
+        }
 
         public List<Product> Inventory
         {
@@ -107,7 +116,6 @@ namespace Library.eCommerce.Services
             {
                 var itemsJson = new WebRequestHandler().Get("http://localhost:5013/Product").Result;
 
-                //Console.WriteLine(itemsJson.ToString());
                 inventory = JsonConvert.DeserializeObject<List<Product>>(itemsJson);
                 return inventory;
             }
@@ -357,15 +365,17 @@ namespace Library.eCommerce.Services
             //}
 
             //inventory.Remove(itemToDelete);
-            var paramList = new DeleteParams(id, searchIn, cartName);
-            var response = new WebRequestHandler().Post($"http://loclahost:5013/Product/Delete", paramList);
 
-            //var productToDelete = inventory.FirstOrDefault(t => t.Id == id);
-            //if (productToDelete == null)
-            //{
-            //    return;
-            //}
-            //inventory.Remove(productToDelete);
+            var paramList = new DeleteParams(id, searchIn, cartName);
+            var response = new WebRequestHandler().Post("http://localhost:5013/Product/Delete", paramList).Result;
+            var newProductByQuantity = JsonConvert.DeserializeObject<int>(response);
+
+            var productToDelete = inventory.FirstOrDefault(t => t.Id == id);
+            if (productToDelete == null)
+            {
+                return;
+            }
+            inventory.Remove(productToDelete);
         }
         public void Save()
         {

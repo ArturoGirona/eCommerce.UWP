@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Library.eCommerce.DTO
 {
 
-    internal class ProductByQuantityTDO : ProductDTO
+    public class ProductByQuantityTDO : ProductDTO
     {
 
         private int _quantity;
@@ -41,6 +41,15 @@ namespace Library.eCommerce.DTO
             }
         }
 
+        public ProductByQuantityTDO()
+        {
+
+        }
+
+        public ProductByQuantityTDO(ProductByQuantity p) : base(p)
+        {
+
+        }
         public override string ToString()
         {
             if (FoundIn == ProductType.INVENTORY)

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Library.eCommerce.DTO
 {
-    internal class ProductDTO
+    public class ProductDTO
     {
         public ProductType FoundIn { get; set; }
         public string Name { get; set; }
@@ -25,6 +25,23 @@ namespace Library.eCommerce.DTO
         public bool BoGo { get; set; }
 
         private string _cartName;
+        //private ProductByQuantity p;
+
+        public ProductDTO()
+        {
+
+        }
+        public ProductDTO(Product p)
+        {
+            Id = p.Id;
+            Name = p.Name;
+            Description = p.Description;
+            Price = p.Price;
+            BoGo = p.BoGo;
+            TotalPrice = p.TotalPrice;
+            FoundIn = p.FoundIn;
+        }
+
         public string CartName
         {
 

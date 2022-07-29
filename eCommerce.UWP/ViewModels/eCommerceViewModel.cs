@@ -190,8 +190,8 @@ namespace eCommerce.UWP.ViewModels
                                 _productService.Inventory.Where(i => i.FoundIn == ProductType.CART && i.CartName.Equals(SelectedCart?.CartName)).OrderBy(i => i.TotalPrice).Select(i => new ProductViewModel(i)));
 
                     }
-                    return new ObservableCollection<ProductViewModel>(
-                        _productService.Inventory.Where(i => i.FoundIn == ProductType.CART && i.CartName.Equals(SelectedCart?.CartName)).Select(i => new ProductViewModel(i)));
+                    //return new ObservableCollection<ProductViewModel>(
+                    //    _productService.Inventory.Where(i => i.FoundIn == ProductType.CART && i.CartName.Equals(SelectedCart?.CartName)).Select(i => new ProductViewModel(i)));
                 }
 
             }
@@ -268,11 +268,11 @@ namespace eCommerce.UWP.ViewModels
             NotifyPropertyChanged("Carts");
         }
 
-        public async void DeleteCart()
+        public void DeleteCart()
         {
             var name = SelectedCart?.CartName ?? string.Empty;
             if (!name.Equals(string.Empty))
-                _productService.CartList.Remove(name);
+                _productService.DeleteCart(name);
             NotifyPropertyChanged("Carts");
         }
 

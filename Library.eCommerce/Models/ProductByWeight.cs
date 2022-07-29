@@ -52,7 +52,7 @@ namespace Library.eCommerce.Models
         }
 
 
-        public ProductByWeight copy()
+        public new ProductByWeight copy()
         {
             ProductByWeight copy = (base.copy() as ProductByWeight);
 

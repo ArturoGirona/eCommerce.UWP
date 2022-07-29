@@ -38,7 +38,7 @@ namespace eCommerce.UWP.Dialogs
             //step 3: interact with the service using models;
             
             if (!ProductService.Current.CartList.Contains(cn))
-                ProductService.Current.CartList.Add(cn);
+                ProductService.Current.CreateCart(cn);
             else
                 ErrorMessage = Visibility.Visible;
         }

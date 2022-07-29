@@ -49,7 +49,7 @@ namespace Library.eCommerce.Models
                 return $"{Id} ({Quantity}) {Price:C2} | {TotalPrice:C2} {Name}: {Description}";
         }
 
-        public ProductByQuantity copy()
+        public new ProductByQuantity copy()
         {
             ProductByQuantity copy = (base.copy() as ProductByQuantity);
 

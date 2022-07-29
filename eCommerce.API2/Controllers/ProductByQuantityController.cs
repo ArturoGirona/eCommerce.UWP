@@ -3,6 +3,7 @@ using Library.eCommerce.Services;
 using eCommerce.API.EC;
 using Microsoft.AspNetCore.Mvc;
 using eCommerce.API.Database;
+//using Library.eCommerce.DTO;
 
 namespace eCommerce.API.Controllers
 {
@@ -18,7 +19,6 @@ namespace eCommerce.API.Controllers
 
         [HttpGet]
         public List<ProductByQuantity> Get()
-
         {
             return new ProductByQuantityEC().Get();
         }
@@ -30,6 +30,8 @@ namespace eCommerce.API.Controllers
             ProductByQuantity item = pList.item as ProductByQuantity;
             ProductType searchIn = pList.searchIn;
             string cartName = pList.cartName;
+
+            //return (ProductByQuantity) Filebase.Current.AddOrUpdate(item, searchIn, cartName);
             ////Id management for adding a new record.
             //if (item.Id == 0)
             //{
@@ -61,10 +63,10 @@ namespace eCommerce.API.Controllers
                 //}
                 //else if (item.GetType().Equals(typeof(ProductByQuantity)) && inventoryItem.GetType().Equals(typeof(ProductByQuantity)))
                 //{
-                    var invItemQuantity = (ProductByQuantity)inventoryItem;
-                    var itemQuantity = (ProductByQuantity)item;
-                    invItemQuantity.Quantity = itemQuantity.Quantity;
-                    //return itemQuantity;
+                var invItemQuantity = (ProductByQuantity)inventoryItem;
+                var itemQuantity = (ProductByQuantity)item;
+                invItemQuantity.Quantity = itemQuantity.Quantity;
+                //return itemQuantity;
                 //}
                 //else
                 //{
@@ -91,13 +93,13 @@ namespace eCommerce.API.Controllers
                     //}
                     //else if (inventoryItem.GetType().Equals(typeof(ProductByQuantity)))
                     //{
-                        var invItemQuantity = (ProductByQuantity)inventoryItem;
-                        var itemQuantity = (ProductByQuantity)item;
-                        var cartItemQuantity = (ProductByQuantity)cartItem;
-                        invItemQuantity.Quantity += cartItemQuantity.Quantity;
+                    var invItemQuantity = (ProductByQuantity)inventoryItem;
+                    var itemQuantity = (ProductByQuantity)item;
+                    var cartItemQuantity = (ProductByQuantity)cartItem;
+                    invItemQuantity.Quantity += cartItemQuantity.Quantity;
 
-                        cartItemQuantity.Quantity = itemQuantity.Quantity;
-                        invItemQuantity.Quantity -= cartItemQuantity.Quantity;
+                    cartItemQuantity.Quantity = itemQuantity.Quantity;
+                    invItemQuantity.Quantity -= cartItemQuantity.Quantity;
                     //return cartItemQuantity;
                     //}
                 }
@@ -113,11 +115,11 @@ namespace eCommerce.API.Controllers
                     //}
                     //else if (inventoryItem.GetType().Equals(typeof(ProductByQuantity)))
                     //{
-                        var invItemQuantity = (ProductByQuantity)inventoryItem;
-                        var itemQuantity = (ProductByQuantity)item;
+                    var invItemQuantity = (ProductByQuantity)inventoryItem;
+                    var itemQuantity = (ProductByQuantity)item;
 
-                        invItemQuantity.Quantity -= itemQuantity.Quantity;
-                        FakeDatabase.ProductsByQuantity.Add(itemQuantity);
+                    invItemQuantity.Quantity -= itemQuantity.Quantity;
+                    FakeDatabase.ProductsByQuantity.Add(itemQuantity);
                     //return itemQuantity;
                     //}
                 }
@@ -129,59 +131,6 @@ namespace eCommerce.API.Controllers
             }
 
             return item;
-        }
-
-        [HttpPost("Delete/{pList}")]
-        public int Delete(DeleteParams pList)
-        //public int Delete(int id, ProductType searchIn = ProductType.INVENTORY, string cartName = "")
-        {
-            int id = pList.id;
-            ProductType searchIn = pList.searchIn;
-            string cartName = pList.cartName;
-
-            var itemToDelete = FakeDatabase.ProductsByQuantity.FirstOrDefault(i => i.Id == id && i.FoundIn == searchIn && i.CartName == cartName);
-            if (itemToDelete == default || itemToDelete == null)
-            {
-                Console.WriteLine("The item has not been found and cannot be deleted");
-                return id;
-            }
-
-
-            if (searchIn == ProductType.INVENTORY)
-            {
-                var deleteFromCart = FakeDatabase.ProductsByQuantity.FirstOrDefault(i => i.Id == id && i.FoundIn == ProductType.CART);
-                FakeDatabase.ProductsByQuantity.Remove(deleteFromCart ?? new ProductByQuantity());
-            }
-            else
-            {
-                var inventoryItem = FakeDatabase.ProductsByQuantity.FirstOrDefault(i => i.Id == id && i.FoundIn == ProductType.INVENTORY);
-                //if (itemToDelete.GetType().Equals(typeof(ProductByWeight)))
-                //{
-                //    var inventoryItemWeight = (ProductByWeight)inventoryItem;
-                //    var itemToDeleteWeight = (ProductByWeight)itemToDelete;
-                //    inventoryItemWeight.Weight += itemToDeleteWeight.Weight;
-                //}
-                //else
-                //{
-                    var inventoryItemQuantity = (ProductByQuantity)inventoryItem;
-                    var itemToDeleteQuantity = (ProductByQuantity)itemToDelete;
-                    inventoryItemQuantity.Quantity += itemToDeleteQuantity.Quantity;
-                //}
-
-            }
-
-
-            //var itemToDelete = FakeDatabase.Inventory.FirstOrDefault(i => i.Id == id);
-            //if (itemToDelete != null)
-            //{
-            //    var item = itemToDelete as ProductByQuantity;
-            //    if (item != null)
-            //    {
-            //        FakeDatabase.ProductsByQuantity.Remove(item);
-            //    }
-            //}
-
-            return id;
         }
     }
 }
